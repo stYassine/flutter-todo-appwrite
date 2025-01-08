@@ -20,6 +20,14 @@ abstract interface class IAuthRepository {
     required String password,
   });
 
+  Future<Either<Failure, Session>> login({
+    required String email,
+    required String password,
+  });
+
+  Future<Either<Failure, Session>> checkSession();
+
+
 }
 
 class AuthRepository implements IAuthRepository{
@@ -62,6 +70,42 @@ class AuthRepository implements IAuthRepository{
       return left(Failure(message: e.message!));
     }
 
+  }
+  
+  @override
+  Future<Either<Failure, Session>> login({required String email, required String password}) async{
+    
+    try{
+      if(await _internetConnectionChecker.hasConnection){
+        Session session = await _appwriteProvider.account!.createEmailPasswordSession(email: email, password: password);
+
+        return right(session);
+      }else{
+        return left(Failure(message: AppStrings.internetNotFound));
+      }
+    } on AppwriteException catch(e){
+      return left(Failure(message: e.message!));
+    }on ServerException catch(e){
+      return left(Failure(message: e.message!));
+    }
+
+  }
+
+  @override
+  Future<Either<Failure, Session>> checkSession() async {
+    try{
+      if(await _internetConnectionChecker.hasConnection){
+        Session session = await _appwriteProvider.account!.getSession(sessionId: "current");
+
+        return right(session);
+      }else{
+        return left(Failure(message: AppStrings.internetNotFound));
+      }
+    } on AppwriteException catch(e){
+      return left(Failure(message: e.message!));
+    }on ServerException catch(e){
+      return left(Failure(message: e.message!));
+    }
   }
   
 

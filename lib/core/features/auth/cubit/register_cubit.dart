@@ -23,7 +23,6 @@ class RegisterCubit extends Cubit<RegisterState> {
       (failure) => emit(RegisterError(error: failure.message)),
       (user) => emit(RegisterSuccess()) 
     );
-
-
   }
+
 }

@@ -61,8 +61,9 @@ class RegisterViewState extends State<RegisterView> {
                   clearText();
                   FullScreenDialogLoader.cancel(context);
                   CustomSnackbar.showSuccess(context, AppStrings.accountCreated);
-                  context.goNamed(RoutesNames.login);
+                  context.goNamed(RoutesNames.login); // redirect to login view
                 }else if(state is RegisterError){
+                  FullScreenDialogLoader.cancel(context);
                   CustomSnackbar.showError(context, state.error);
                 }
               },
