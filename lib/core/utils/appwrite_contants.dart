@@ -4,7 +4,7 @@ class AppWriteConstants {
   static const databaseId = "677c5f8700033e7770e5";
   static const userCollectionId = "677c5fac001837b3ba47";
   
-  static const todoCollectionId = "to_be_created";
+  static const todoCollectionId = "67801b22001af909d547";
 
 
 
